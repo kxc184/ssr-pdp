@@ -1,42 +1,33 @@
-import Header from "@/components/ui/Header";
-import Card from "../components/ui/Card";
+import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
-const cards = [
-  { title: "red", description: "red paint", price: 20 },
-  { title: "blue", description: "blue paint", price: 25 },
-  { title: "green", description: "green paint", price: 30 },
-  { title: "yellow", description: "yellow paint", price: 35 },
-  { title: "purple", description: "purple paint", price: 40 },
-  { title: "orange", description: "orange paint", price: 45 },
-  { title: "pink", description: "pink paint", price: 50 },
-  { title: "brown", description: "brown paint", price: 55 },
-  { title: "black", description: "black paint", price: 60 },
+const categories = [
+  { name: "Interior Paints", src: "/interiorpaints.png" },
+  { name: "Exterior Paints", src: "/exteriorpaint.png" },
+  { name: "Painting Tools & Supplies", src: "/paintsupplies.png" },
 ];
 
 const Home = () => {
-  const pagination = "< 1 2 3 4 5 >";
   return (
-    <>
-      <Header />
-      <div className="grid gap-5 grid-cols-6 m-4">
-        <div className="col-span-1 shadow-xl rounded-md px-2 font-semibold">
-          Filter
-        </div>
-        <div className={`grid grid-cols-3 max-w-4xl col-span-5 gap-5 `}>
-          {cards.map((card) => (
-            <Card
-              key={card.title}
-              title={card.title}
-              description={card.description}
-              price={card.price}
-            />
-          ))}
-          <div className="col-span-3 text-center">{pagination}</div>
-        </div>
-      </div>
-    </>
+    <div className="container mx-auto m-4 flex gap-5 font-semibold text-lg text-white  justify-center">
+      {/* Categories */}
+      {categories.map(({ name, src }, i) => (
+        <Link
+          // TODO: do I need individual routes for each category
+          // I think each product will be displayed on same product listing component
+          // does that mean I should differentiate the product by category?
+          href={`/products`}
+          key={name}
+          className="flex flex-col items-center border-solid border-2 rounded-md shadow-md p-4 hover:scale-105 transition-all duration-300"
+        >
+          <Image src={src} alt={name} width={200} height={200} />
+          <h1 className="border-solid border-2 rounded-md p-4 bg-blue-500">
+            {name}
+          </h1>
+        </Link>
+      ))}
+    </div>
   );
 };
-
 export default Home;

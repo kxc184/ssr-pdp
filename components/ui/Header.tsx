@@ -1,21 +1,53 @@
 "use client";
 import React from "react";
 import { ShoppingCart, Search } from "lucide-react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
-const Header = () => {
+const Header = ({}) => {
+  const [q, setQ] = React.useState("");
+  const [tally, setTally] = React.useState(0);
+  const router = useRouter();
+  const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value);
+    setQ(e.target.value);
+  };
+
+  const onKeyDown = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (q.length < 3) return;
+    if (e.key === "Enter") {
+      e.preventDefault();
+      // update the URL with the search query
+      router.push(`/products?q=${encodeURIComponent(q)}`);
+    }
+  };
+
   return (
-    <div className="sticky top-0 bg-gray-800 text-white px-8 py-4 flex justify-between items-center">
-      <h1 className="text-2xl font-semibold">PDP</h1>
-      <div className="relative">
-        <input
-          className="rounded-md min-w-100 bg-white pr-10 text-black px-2"
-          placeholder="Search for products"
-        />
-        <Search className="absolute right-2 top-1/2 transform -translate-y-1/2 text-black" />
+    <div className="sticky top-0 bg-gray-800 text-white px-8 py-4 ">
+      <div className="flex justify-between items-center container mx-auto ">
+        <Link href={"/"} className="text-2xl font-semibold">
+          PDP
+        </Link>
+        <div className="relative">
+          <input
+            onChange={onSearch}
+            value={q}
+            onKeyDown={onKeyDown}
+            className="rounded-md min-w-100 bg-white pr-10 text-black px-2"
+            placeholder="Search for products"
+          />
+          <Search className="absolute right-2 top-1/2 transform -translate-y-1/2 text-black" />
+        </div>
+        <button
+          className="relative"
+          onClick={() => console.log("cart clicked")}
+        >
+          <ShoppingCart className="text-2xl font-semibold hover:scale-120 duration-200 hover:cursor-pointer " />
+          <span className="absolute bottom-0 font-semibold right-0 transform translate-x-1/2 translate-y-1/2 bg-red-500 text-white rounded-full p-[.5em] text-[10px] leading-[.5em]  ">
+            {tally}
+          </span>
+        </button>
       </div>
-      <button onClick={() => console.log("cart clicked")}>
-        <ShoppingCart className="text-2xl font-semibold hover:scale-120 duration-200 hover:cursor-pointer " />
-      </button>
     </div>
   );
 };

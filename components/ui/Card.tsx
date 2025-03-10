@@ -1,14 +1,14 @@
 import React from "react";
 
-interface CardProps {
+export interface ICard {
   title: string;
   description: string;
   price: number;
 }
 
-const Card = ({ title, description, price }: CardProps) => {
+const Card = ({ title, description, price }: ICard) => {
   return (
-    <div className="py-5 rounded-md inline-flex items-center shadow-2xl">
+    <div className="py-5 rounded-md inline-flex items-center shadow-2xl max-h-96">
       <div className="flex flex-col px-8 w-full">
         <div className="flex justify-center w-full  ">
           <div className="h-32 w-full rounded-md  bg-blue-300 hover:cursor-pointer" />
@@ -21,7 +21,7 @@ const Card = ({ title, description, price }: CardProps) => {
             {description}
           </h3>
         </span>
-        <h3 className="text-black/50">
+        <h3 className="text-black/50 mb-2">
           {new Intl.NumberFormat("en-US", {
             style: "currency",
             currency: "USD",
