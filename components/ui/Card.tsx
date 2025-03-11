@@ -9,7 +9,7 @@ export interface ICard {
 
 const Card = ({ title, description, color }: ICard) => {
   return (
-    <div className="py-5 rounded-md inline-flex items-center shadow-2xl max-h-96">
+    <div className="py-5 rounded-md inline-flex items-center shadow-2xl max-h-96 hover:scale-105 duration-200">
       <div className="flex flex-col px-8 w-full">
         <div className="flex justify-center w-full  ">
           <div

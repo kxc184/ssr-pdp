@@ -1,15 +1,17 @@
 "use client";
+import { useTransitionContext } from "@/context/TransitionalContext";
 import useCustomRouter from "@/lib/hooks/useCustomRouter";
 import React from "react";
 
 const Tag = ({ tag }: { tag: string }) => {
-  const { currentParams, pathname, router } = useCustomRouter();
+  const { currentParams, pathname } = useCustomRouter();
+  const { navTo } = useTransitionContext();
 
   const closeTag = () => {
-    console.log(tag);
     currentParams.delete("family", tag.toLowerCase());
     currentParams.delete("q", tag.toLowerCase());
-    router.push(`${pathname}?${currentParams.toString()}`);
+    const path = `${pathname}?${currentParams.toString()}`;
+    navTo(path);
   };
   return (
     <button

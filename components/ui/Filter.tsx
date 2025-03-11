@@ -1,4 +1,5 @@
 "use client";
+import { useTransitionContext } from "@/context/TransitionalContext";
 import useCustomRouter from "@/lib/hooks/useCustomRouter";
 import React from "react";
 
@@ -11,7 +12,8 @@ interface IFilter {
 }
 
 const Filter = ({ data }: IFilter) => {
-  const { currentParams, pathname, router } = useCustomRouter();
+  const { currentParams, pathname } = useCustomRouter();
+  const { navTo } = useTransitionContext();
   const family = currentParams.getAll("family");
 
   const updateFilter = (
@@ -24,7 +26,8 @@ const Filter = ({ data }: IFilter) => {
       currentParams.delete("family", encodeURIComponent(filter.toLowerCase()));
     }
     currentParams.set("page", "1");
-    router.push(`${pathname}?${currentParams.toString()}`);
+    const path = `${pathname}?${currentParams.toString()}`;
+    navTo(path);
   };
 
   return (
@@ -36,7 +39,10 @@ const Filter = ({ data }: IFilter) => {
               <h1 className="text-lg font-semibold">{filter.name}</h1>
               {filter.data &&
                 filter.data.map((filter) => (
-                  <div className="flex gap-2" key={filter.name}>
+                  <div
+                    className="flex gap-2 hover:shadow-md hover:scale-110 duration-300"
+                    key={filter.name}
+                  >
                     <input
                       id={filter.name}
                       checked={
@@ -45,7 +51,7 @@ const Filter = ({ data }: IFilter) => {
                       }
                       type="checkbox"
                       onChange={(e) => updateFilter(e, filter.name)}
-                      className=""
+                      className="hover:cursor-pointer"
                     />
                     <label
                       htmlFor={filter.name}

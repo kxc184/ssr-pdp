@@ -18,10 +18,8 @@ export async function GET(request: Request) {
   const page = Number(searchParams.getAll("page") || "1");
   const pageIndex = (page - 1) * PAGE_SIZE;
   const pageLimit = pageIndex + PAGE_SIZE;
-  console.log("Family", family, family.length === 1 && family[0] === "");
 
   const uniqueColorFamilies = new Set();
-  // Filter the colors based on the query
   const queryColors = DB.filter((color) => {
     color.colorFamilyNames.forEach((familyName) => {
       uniqueColorFamilies.add(familyName);
@@ -53,8 +51,7 @@ export async function GET(request: Request) {
     pages: Math.ceil(filterColors.length / PAGE_SIZE),
   });
 
-  console.log("filteredColors", body);
-  // console.log("All color families", uniqueColorFamilies);
+  // await new Promise((res) => setTimeout(res, 1000));
   return new Response(body, {
     status: 200,
     headers: {

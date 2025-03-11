@@ -1,18 +1,17 @@
 "use client";
 import React from "react";
 import { ShoppingCart, Search } from "lucide-react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { useTransitionContext } from "@/context/TransitionalContext";
+import useCustomRouter from "@/lib/hooks/useCustomRouter";
 
 const Header = ({}) => {
   const [q, setQ] = React.useState("");
   const [tally, setTally] = React.useState(0);
-  const router = useRouter();
-  const pathname = usePathname();
+  const { router, pathname, searchParams } = useCustomRouter();
+  const { startTransition } = useTransitionContext();
 
-  const searchParams = useSearchParams();
   const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
     setQ(e.target.value);
   };
 
@@ -20,25 +19,26 @@ const Header = ({}) => {
     if (q.length < 3) return;
     if (e.key === "Enter") {
       e.preventDefault();
-      // update the URL with the search query
-      // router.push(`/products/a?q=${encodeURIComponent(q)}`);
 
-      // Update the searchParams
       const currentParams = new URLSearchParams(
         Array.from(searchParams.entries())
       );
-      console.log("current params", currentParams);
       currentParams.set("q", encodeURIComponent(q));
       currentParams.set("page", "1");
-      router.push(`${pathname}?${currentParams.toString()}`);
+      startTransition(() => {
+        router.push(`${pathname}?${currentParams.toString()}`);
+      });
     }
   };
 
   return (
     <div className="sticky top-0 bg-gray-800 text-white px-8 py-4">
-      <div className="flex justify-between flex-wrap items-center container mx-auto  ">
-        <Link href={"/"} className="text-2xl font-semibold">
-          PDP
+      <div className="flex justify-between  items-center container mx-auto  ">
+        <Link
+          href={"/"}
+          className="text-2xl font-semibold hover:scale-110 duration-300 hover:shadow-md"
+        >
+          Color Chooser
         </Link>
         <div className="relative">
           <input

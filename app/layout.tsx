@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/ui/Header";
+import { TransitionProvider } from "@/context/TransitionalContext";
 
 export const metadata: Metadata = {
   title: "PDP",
@@ -15,8 +16,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Header />
-        {children}
+        <TransitionProvider>
+          <Header />
+          {children}
+        </TransitionProvider>
       </body>
     </html>
   );

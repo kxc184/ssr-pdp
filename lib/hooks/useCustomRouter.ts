@@ -6,7 +6,7 @@ const useCustomRouter = () => {
   const searchParams = useSearchParams();
   const currentParams = new URLSearchParams(Array.from(searchParams.entries()));
 
-  return { router, pathname, currentParams };
+  return { router, pathname, currentParams, searchParams };
 };
 
 export default useCustomRouter;
